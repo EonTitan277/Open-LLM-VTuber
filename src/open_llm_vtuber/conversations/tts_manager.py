@@ -171,6 +171,14 @@ class TTSTaskManager:
             file_name_no_ext=f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{str(uuid.uuid4())[:8]}",
         )
 
+    # Added this block to solve my TTS issue. ------------------------------------------ #
+    async def wait_for_completion(self) -> None:                                         #
+        """Wait for all TTS generation tasks and queued payload delivery to finish."""   #
+        if self.task_list:                                                               #
+            await asyncio.gather(*self.task_list)                                        #
+        await self._payload_queue.join()                                                 #
+    # ---------------------------------------------------------------------------------- #
+
     def clear(self) -> None:
         """Clear all pending tasks and reset state"""
         self.task_list.clear()

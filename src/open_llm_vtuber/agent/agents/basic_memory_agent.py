@@ -213,14 +213,16 @@ class BasicMemoryAgent(AgentInterface):
                     }
                 )
 
-        interrupt_role = "system" if self.interrupt_method == "system" else "user"
-        self._memory.append(
-            {
-                "role": interrupt_role,
-                "content": "[Interrupted by user]",
-            }
-        )
-        logger.info(f"Handled interrupt with role '{interrupt_role}'.")
+        # I commented this out to stop the AI from reacting to the interrupt message.
+        #
+        # interrupt_role = "system" if self.interrupt_method == "system" else "user"
+        # self._memory.append(
+        #     {
+        #         "role": interrupt_role,
+        #         "content": "[Interrupted by user]",
+        #     }
+        # )
+        # logger.info(f"Handled interrupt with role '{interrupt_role}'.")
 
     def _to_text_prompt(self, input_data: BatchInput) -> str:
         """Format input data to text prompt."""

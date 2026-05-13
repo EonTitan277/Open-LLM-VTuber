@@ -137,11 +137,6 @@ async def process_single_conversation(
             # full_response will contain partial response before error
         # --- End processing agent response ---
 
-        # Wait for any pending TTS tasks
-        if tts_manager.task_list:
-            await asyncio.gather(*tts_manager.task_list)
-            await websocket_send(json.dumps({"type": "backend-synth-complete"}))
-
         await finalize_conversation_turn(
             tts_manager=tts_manager,
             websocket_send=websocket_send,
@@ -165,7 +160,7 @@ async def process_single_conversation(
         logger.info(f"🤡👍 Conversation {session_emoji} cancelled because interrupted.")
         raise
     except Exception as e:
-        logger.error(f"Error in conversation chain: {e}")
+        logger.exception(f"Error in conversation chain: {e}") # Changed from "logger.error" to "logger.exception" to help diagnose my TTS issue.
         await websocket_send(
             json.dumps({"type": "error", "message": f"Conversation error: {str(e)}"})
         )
