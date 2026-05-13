@@ -12,7 +12,7 @@
 - **🚫 エラーロギングの強化** – デバッグ診断を改善するため、TTS関連のエラーについて完全な例外トレースバックが記録されるようになりました
 
 ## ℹ️ 私のフォークの使用方法
-1. [クイックセットアップガイド](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)に従ってください
+1. [クイックセットアップガイド](https://docs.llmvtuber.com/en/docs/quick-start)に従ってください
 2. [Frontend (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)の私のフォークをクローンしてください
    - そのリポジトリのReadmeに記載されている手順に従ってください。
 

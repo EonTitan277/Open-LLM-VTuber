@@ -12,7 +12,7 @@
 - **🚫 增强的错误日志记录** – 现已完整捕获与 TTS 相关的错误的异常回溯信息，以改善调试诊断
 
 ## ℹ️ 如何使用我的分支
-1. 请遵循 [快速设置指南](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)
+1. 请遵循 [快速设置指南](https://docs.llmvtuber.com/en/docs/quick-start)
 2. 克隆我分叉的 [前端 (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)
    - 请按照该仓库的 Readme 说明操作。
 

@@ -12,7 +12,7 @@
 - **🚫 오류 로깅 강화** – 디버깅 진단 기능을 개선하기 위해 TTS 관련 오류에 대한 전체 예외 트레이스백을 이제 캡처합니다
 
 ## ℹ️ 내 포크 사용 방법
-1. [빠른 설정 가이드](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)를 따르세요
+1. [빠른 설정 가이드](https://docs.llmvtuber.com/en/docs/quick-start)를 따르세요
 2. [Frontend (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)의 제 포크를 클론하세요
    - 해당 저장소의 Readme 지침을 따르세요.
 
