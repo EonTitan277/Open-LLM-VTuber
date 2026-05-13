@@ -1,3 +1,24 @@
+<h3 align="center">
+
+> *(我使用 DeepL 翻译了这一部分。如有错误，敬请谅解。)*
+**🪧 个人分支说明**：这是 [Open-LLM-VTuber](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber) 的个人分支，仅供我个人使用。其中包含了一些对我个人有用的额外功能和修复。我目前并未积极维护此分支，也不会将其与上游代码保持同步。所有新代码和修改均由 [Claude](https://claude.ai/) 生成。
+
+</h3>
+
+## 🌟 新功能
+- **📖 背景设定书支持** – 角色现在可以关联背景设定书（包含背景设定条目的 YAML 文件），AI 在主动发言时会从中汲取内容，从而实现更丰富、更具情境感的角色对话
+- **🎲 随机主动提示** – AI 现可通过基于背景故事的提示（来自背景故事书条目）或常规主动提示，以概率方式生成主动对话，并具备备用机制以确保系统健壮性
+- **🗣️ 改进的 TTS 任务管理** – 通过集中化的 TTSTaskManager.wait_for_completion 方法，更好地处理待处理的 TTS 任务并协调有效负载队列
+- **🚫 增强的错误日志记录** – 现已完整捕获与 TTS 相关的错误的异常回溯信息，以改善调试诊断
+
+## ℹ️ 如何使用我的分支
+1. 请遵循 [快速设置指南](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)
+2. 克隆我分叉的 [前端 (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)
+   - 请按照该仓库的 Readme 说明操作。
+<br>
+### 本读我文件的其余部分保持不变。
+***
+<br><br>
 
 ![](./assets/banner.cn.jpg)
 

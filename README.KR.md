@@ -1,3 +1,25 @@
+<h3 align="center">
+
+> (*이 섹션은 DeepL을 사용하여 번역했습니다. 오류가 있을 수 있으니 양해 부탁드립니다.*)
+**🪧 개인 포크 공지**: 이 프로젝트는 [Open-LLM-VTuber](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber)를 개인적으로 사용하기 위해 포크한 것입니다. 여기에는 저에게 유용한 추가 기능과 수정 사항이 포함되어 있습니다. 저는 이 포크를 적극적으로 유지 관리하거나 업스트림과 동기화하지 않습니다. 모든 새로운 코드와 수정 사항은 [Claude](https://claude.ai/)를 통해 생성되었습니다.
+
+</h3>
+
+## 🌟 새로운 기능
+- **📖 배경 설정 자료 지원** – 이제 캐릭터마다 배경 설정 자료(배경 설정 항목이 담긴 YAML 파일)를 연결할 수 있으며, AI가 능동적으로 대화할 때 이를 참조하여 더욱 풍부하고 상황에 맞는 캐릭터 대화를 구현합니다
+- **🎲 무작위 능동형 프롬프트** – AI가 이제 설정 기반 프롬프트(설정집 항목에서 추출) 또는 일반 능동형 프롬프트를 사용하여 확률적으로 능동형 대사를 생성하며, 안정성을 위해 대체 동작도 지원합니다
+- **🗣️ 개선된 TTS 작업 관리** – 보류 중인 TTS 작업 및 페이로드 큐 조정을 더 잘 처리하기 위해 TTSTaskManager.wait_for_completion 메서드를 중앙 집중화했습니다
+- **🚫 오류 로깅 강화** – 디버깅 진단 기능을 개선하기 위해 TTS 관련 오류에 대한 전체 예외 트레이스백을 이제 캡처합니다
+
+## ℹ️ 내 포크 사용 방법
+1. [빠른 설정 가이드](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)를 따르세요
+2. [Frontend (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)의 제 포크를 클론하세요
+   - 해당 저장소의 Readme 지침을 따르세요.
+<br>
+### 이 Readme의 나머지 내용은 변경되지 않았습니다.
+***
+<br><br>
+
 ![](./assets/banner.kr.jpg)
 
 <h1 align="center">Open-LLM-VTuber</h1>

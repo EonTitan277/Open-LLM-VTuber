@@ -12,6 +12,10 @@ conf.yaml
 
 # ignore non-default character configs
 /characters/*
+!/characters/lorebooks
+/characters/lorebooks/*
+!/characters/lorebooks/en_mili.yaml
+!/characters/lorebooks/zh_米粒.yaml
 !/characters/README.md
 # but all of the defaults are already tracked, so no need to un-ignore them
 

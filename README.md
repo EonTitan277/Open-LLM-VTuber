@@ -1,3 +1,24 @@
+<h3 align="center">
+
+> **🪧 Personal Fork Notice**: This is a personal fork of [Open-LLM-VTuber](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber) maintained for my own use. It includes additional features and fixes that benefit me personally. I am not actively maintaining this fork or keeping it in sync with upstream. All new code and modifications were generated with [Claude](https://claude.ai/).
+
+</h3>
+
+## 🌟 New Features
+- **📖 Lorebook Support** – Characters can now have associated lorebooks (YAML files with lore entries) that the AI draws from when speaking proactively, enabling richer and more contextual character dialogue
+- **🎲 Random Proactive Prompts** – AI now probabilistically generates proactive speech using either lore-based prompts (from lorebook entries) or regular proactive prompts, with fallback behavior for robustness
+- **🗣️ Improved TTS Task Management** – Centralized TTSTaskManager.wait_for_completion method for better handling of pending TTS tasks and payload queue coordination
+- **🚫 Enhanced Error Logging** – Full exception tracebacks now captured for TTS-related errors to improve debugging diagnostics
+
+## ℹ️ How To Use My Fork
+1. Follow the [Quick Setup Guide](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)
+2. Clone my fork of the [Frontend (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)
+   - Follow the Readme instructions for that repo.
+<br>
+### The rest of this readme has been left unchanged.
+***
+<br><br>
+
 ![](./assets/banner.jpg)
 
 <h1 align="center">Open-LLM-VTuber</h1>
@@ -20,7 +41,7 @@
 
 ENGLISH README | [中文 README](./README.CN.md) | [한국어 README](./README.KR.md) | [日本語 README](./README.JP.md)
 
-[Documentation](https://open-llm-vtuber.github.io/docs/quick-start) | [![Roadmap](https://img.shields.io/badge/Roadmap-GitHub_Project-yellow)](https://github.com/orgs/Open-LLM-VTuber/projects/2)
+[Documentation](https://open-llm-vtuber.github.io/en/docs/quick-start) | [![Roadmap](https://img.shields.io/badge/Roadmap-GitHub_Project-yellow)](https://github.com/orgs/Open-LLM-VTuber/projects/2)
 
 <a href="https://trendshift.io/repositories/12358" target="_blank"><img src="https://trendshift.io/api/badge/repositories/12358" alt="Open-LLM-VTuber%2FOpen-LLM-VTuber | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
@@ -50,7 +71,7 @@ You can treat it as your personal AI companion — whether you want a `virtual g
 
 Although the long-term memory feature is temporarily removed (coming back soon), thanks to the persistent storage of chat logs, you can always continue your previous unfinished conversations without losing any precious interactive moments.
 
-In terms of backend support, we have integrated a rich variety of LLM inference, text-to-speech, and speech recognition solutions. If you want to customize your AI companion, you can refer to the [Character Customization Guide](https://open-llm-vtuber.github.io/docs/user-guide/live2d) to customize your AI companion's appearance and persona.
+In terms of backend support, we have integrated a rich variety of LLM inference, text-to-speech, and speech recognition solutions. If you want to customize your AI companion, you can refer to the [Character Customization Guide](https://open-llm-vtuber.github.io/en/docs/user-guide/live2d) to customize your AI companion's appearance and persona.
 
 The reason it's called `Open-LLM-Vtuber` instead of `Open-LLM-Companion` or `Open-LLM-Waifu` is because the project's initial development goal was to use open-source solutions that can run offline on platforms other than Windows to recreate the closed-source AI Vtuber `neuro-sama`.
 
@@ -99,12 +120,12 @@ The reason it's called `Open-LLM-Vtuber` instead of `Open-LLM-Companion` or `Ope
 
 ## 🚀 Quick Start
 
-Please refer to the [Quick Start](https://open-llm-vtuber.github.io/docs/quick-start) section in our documentation for installation.
+Please refer to the [Quick Start](https://open-llm-vtuber.github.io/en/docs/quick-start) section in our documentation for installation.
 
 
 
 ## ☝ Update
-> :warning: `v1.0.0` has breaking changes and requires re-deployment. You *may* still update via the method below, but the `conf.yaml` file is incompatible and most of the dependencies needs to be reinstalled with `uv`. For those who came from versions before `v1.0.0`, I recommend deploy this project again with the [latest deployment guide](https://open-llm-vtuber.github.io/docs/quick-start).
+> :warning: `v1.0.0` has breaking changes and requires re-deployment. You *may* still update via the method below, but the `conf.yaml` file is incompatible and most of the dependencies needs to be reinstalled with `uv`. For those who came from versions before `v1.0.0`, I recommend deploy this project again with the [latest deployment guide](https://open-llm-vtuber.github.io/en/docs/quick-start).
 
 Please use `uv run update.py` to update if you installed any versions later than `v1.0.0`.
 
