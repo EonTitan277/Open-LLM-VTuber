@@ -64,6 +64,16 @@ The project uses a factory pattern for all AI engines:
 - Silero VAD for detecting speech activity
 - Essential for voice interruption without feedback loops
 
+**TTSTaskManager** (`src/open_llm_vtuber/conversations/tts_manager.py`):
+- Manages async TTS task queue and audio streaming to clients
+- Handles sentence-level chunking, audio file caching, and playback ordering
+- Supports interruption by draining the queue and cancelling in-flight tasks
+
+**Lorebook System**:
+- Location: `character.lorebook` field in each character's YAML config, referencing a separate YAML file
+- Format: Character lore entries (facts, backstory, personality details) stored in `characters/<character>.yaml`
+- Usage: Entries are sampled and fed into random proactive prompt generation so the character speaks about its own lore unprompted
+
 ### Configuration Management
 
 **Config System** (`src/open_llm_vtuber/config_manager/`):
@@ -78,6 +88,7 @@ The project uses a factory pattern for all AI engines:
 - `single_conversation.py` - Individual user conversations
 - `group_conversation.py` - Multi-user group conversations
 - `tts_manager.py` - Audio streaming and TTS management
+- Proactive speaking uses lore-based prompts (sampled from lorebook entries) with regular proactive prompts as a fallback when no lorebook is configured
 
 ### MCP (Model Context Protocol) Integration
 
@@ -115,6 +126,7 @@ The codebase uses the missing `_cleanup_failed_connection` method pattern - when
 - **Frontend**: `frontend/` (Git submodule)
 - **Live2D models**: `live2d-models/`
 - **Character definitions**: `characters/`
+- **Character lore entries**: `characters/<character>.yaml`
 - **Chat history**: `chat_history/`
 - **Cache**: `cache/` (audio files, temporary data)
 
