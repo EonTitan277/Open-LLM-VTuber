@@ -15,9 +15,13 @@
 1. [クイックセットアップガイド](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)に従ってください
 2. [Frontend (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)の私のフォークをクローンしてください
    - そのリポジトリのReadmeに記載されている手順に従ってください。
+
 <br>
+
 ### このReadmeの残りの部分は変更されていません。
+
 ***
+
 <br><br>
 
 ![](./assets/banner.jpg)

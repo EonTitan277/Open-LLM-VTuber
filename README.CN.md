@@ -15,9 +15,13 @@
 1. 请遵循 [快速设置指南](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)
 2. 克隆我分叉的 [前端 (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)
    - 请按照该仓库的 Readme 说明操作。
+
 <br>
+
 ### 本读我文件的其余部分保持不变。
+
 ***
+
 <br><br>
 
 ![](./assets/banner.cn.jpg)

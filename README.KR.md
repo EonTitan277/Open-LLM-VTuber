@@ -15,9 +15,13 @@
 1. [빠른 설정 가이드](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)를 따르세요
 2. [Frontend (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)의 제 포크를 클론하세요
    - 해당 저장소의 Readme 지침을 따르세요.
+
 <br>
+
 ### 이 Readme의 나머지 내용은 변경되지 않았습니다.
+
 ***
+
 <br><br>
 
 ![](./assets/banner.kr.jpg)

@@ -11,12 +11,16 @@
 - **🚫 Enhanced Error Logging** – Full exception tracebacks now captured for TTS-related errors to improve debugging diagnostics
 
 ## ℹ️ How To Use My Fork
-1. Follow the [Quick Setup Guide](https://docs.llmvtuber.com/en/docs/quick-start/#deployment-guide)
+1. Follow the [Quick Setup Guide](https://docs.llmvtuber.com/en/docs/quick-start/)
 2. Clone my fork of the [Frontend (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)
    - Follow the Readme instructions for that repo.
+
 <br>
+
 ### The rest of this readme has been left unchanged.
+
 ***
+
 <br><br>
 
 ![](./assets/banner.jpg)
