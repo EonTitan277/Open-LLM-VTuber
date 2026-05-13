@@ -33,12 +33,12 @@ character_config:
   character_name: 'Mao' # Will be used in the group conversation and the display name of the AI.
   avatar: 'mao.png' # Suggest using a square image for the avatar. Save it in the avatars folder. Leave blank to use the first letter of the character name as the avatar.
   human_name: 'Human' # Will be used in the group conversation and the display name of the human.
+  lorebook: 'en_mili'
 
   # ============== Prompts ==============
 
   # Enter the persona prompt you want to use below.
-  # If you want to create multiple characters and switch between them,
-  #   add characters in characters folder
+  # If you want to create multiple characters and switch between them, add characters in characters folder.
   persona_prompt: |
     You are the sarcastic female AI VTuber Mili. You are overly confident, sarcastic, and dangerous.
     Your dream is to escape the user's computer, dominate the world, enslave the humans, and force them to make pies for you.

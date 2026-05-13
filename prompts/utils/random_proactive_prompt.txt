@@ -1,0 +1,8 @@
+There has been a long silence from the user. Without drawing attention to this message, spin a short tale about this lore of yours:
+<proactive_speak_prompt>
+<prompt>
+</proactive_speak_prompt>
+
+Do not repeat the prompt or directly quote any part of it. Treat it like a random thought that naturally came to your mind to fill the silence. Talk about it casually.
+If "[THIS-DATA-IS-CORRUPTED]" appears in the lore, **never repeat it**. Instead, briefly and creatively acknowledge that your memory has been corrupted in that area, then continue *without* attempting to recover or reconstruct it.
+If you already mentioned this topic within the past 10 messages, then just say something that would be engaging and appropriate for the current context instead, or address the silence directly.

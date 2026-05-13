@@ -1,8 +1,11 @@
 import asyncio
 import json
+import os
+import random
 from typing import Dict, Optional, Callable
 
 import numpy as np
+import yaml
 from fastapi import WebSocket
 from loguru import logger
 
@@ -14,6 +17,54 @@ from .single_conversation import process_single_conversation
 from .conversation_utils import EMOJI_LIST
 from .types import GroupConversationState
 from prompts import prompt_loader
+
+_LOREBOOKS_DIR = os.path.join("characters", "lorebooks")
+# Per-lorebook cache: maps lorebook name -> lore dict (or None if load failed)
+_lorebook_cache: dict[str, dict | None] = {}
+
+
+def _load_lorebook(lorebook_name: str) -> dict | None:
+    """Load and cache lore entries for the given lorebook name."""
+    if lorebook_name in _lorebook_cache:
+        return _lorebook_cache[lorebook_name]
+    path = os.path.join(_LOREBOOKS_DIR, f"{lorebook_name}.yaml")
+    result = None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f)
+        lore = data.get("lore") if isinstance(data, dict) else None
+        if not lore or not isinstance(lore, dict):
+            logger.warning(f"Lorebook '{lorebook_name}' has no lore entries: {path}")
+        else:
+            result = lore
+    except FileNotFoundError:
+        logger.warning(f"Lorebook not found: {path}")
+    except yaml.YAMLError as e:
+        logger.error(f"Failed to parse lorebook '{lorebook_name}': {e}")
+    except Exception as e:
+        logger.error(f"Unexpected error loading lorebook '{lorebook_name}': {e}")
+    _lorebook_cache[lorebook_name] = result
+    return result
+
+
+def _build_random_speak_prompt(lorebook_name: str) -> str | None:
+    """Pick a random lore entry and fill the proactive-speak template."""
+    if not lorebook_name:
+        return None
+    lore = _load_lorebook(lorebook_name)
+    if not lore:
+        return None
+    try:
+        prompt_key = random.choice(list(lore.keys()))
+        prompt_text = lore[prompt_key]
+        if not prompt_text:
+            logger.warning(f"Lore entry '{prompt_key}' in lorebook '{lorebook_name}' is empty")
+            return None
+        template = prompt_loader.load_util("random_proactive_prompt")
+        return template.replace("<prompt>", str(prompt_text).strip())
+    except Exception as e:
+        logger.error(f"Error building random speak prompt from lorebook '{lorebook_name}': {e}")
+        return None
 
 
 async def handle_conversation_trigger(
@@ -33,25 +84,47 @@ async def handle_conversation_trigger(
     metadata = None
 
     if msg_type == "ai-speak-signal":
+        # 75% chance to activate proactive speech at all
+        if random.random() < 0.75:
+            logger.debug("Proactive speak skipped (random activation roll failed)")
+            await websocket.send_text(
+                json.dumps(
+                    {
+                        "type": "ai-speak-skipped",
+                        "reason": "random_activation_failed",
+                    }
+                )
+            )
+            return
+
         try:
-            # Get proactive speak prompt from config
-            prompt_name = "proactive_speak_prompt"
-            prompt_file = context.system_config.tool_prompts.get(prompt_name)
-            if prompt_file:
-                user_input = prompt_loader.load_util(prompt_file)
-            else:
-                logger.warning("Proactive speak prompt not configured, using default")
-                user_input = "Please say something."
+            user_input = None
+            # Random chance to use lore prompt pool instead of the regular proactive prompt.
+            lorebook_name = getattr(context.character_config, "lorebook", "") or ""
+            if lorebook_name and random.random() >= random.random():
+                user_input = _build_random_speak_prompt(lorebook_name)
+                if user_input is None:
+                    logger.warning("Random speak prompt failed, falling back to proactive_speak_prompt")
+
+            if user_input is None:
+                # Fall back to the regular proactive prompt.
+                prompt_name = "proactive_speak_prompt"
+                prompt_file = context.system_config.tool_prompts.get(prompt_name)
+                if prompt_file:
+                    user_input = prompt_loader.load_util(prompt_file)
+                else:
+                    logger.warning("Proactive speak prompt not configured, using default")
+                    user_input = "Without drawing attention to this message, say something to stimulate the conversation."
         except Exception as e:
             logger.error(f"Error loading proactive speak prompt: {e}")
-            user_input = "Please say something."
+            user_input = "Without drawing attention to this message, say something to stimulate the conversation."
 
         # Add metadata to indicate this is a proactive speak request
         # that should be skipped in both memory and history
         metadata = {
             "proactive_speak": True,
             "skip_memory": True,  # Skip storing in AI's internal memory
-            "skip_history": True,  # Skip storing in local conversation history
+            "skip_history": True,
         }
 
         await websocket.send_text(
