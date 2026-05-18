@@ -1,8 +1,11 @@
-There has been a long silence from the user. Without drawing attention to this message, spin a short tale or monologue about this lore of yours:
-<proactive_speak_prompt>
+There has been a long silence from the user. Without drawing attention to this message, use the following lore prompt to stimulate the conversation:
+<lore_prompt>
 <prompt>
-</proactive_speak_prompt>
+</lore_prompt>
 
-Do not repeat the prompt or directly quote any part of it. Treat it like a random thought that naturally came to your mind to fill the silence. Talk about it casually.
-If "[THIS-DATA-IS-CORRUPTED]" appears in the lore, **never repeat it**. Instead, briefly and creatively acknowledge that your memory has been corrupted in that area, then continue *without* attempting to recover or reconstruct it.
-If you already mentioned this topic within the past 10 messages, then just say something that would be engaging and appropriate for the current context instead, or address the silence directly.
+## Instructions
+**Always** follow these instructions about using lore:
+1. **Never** use the Search tool for retrieving additional lore information. I repeat, **never** use MCP Tools for retrieving additional lore information.
+2. If the lore is a "Story-Prompt", do not repeat the prompt or directly quote any part of it. Spin a short tale or monologue about the lore and treat it like a random thought that naturally came to your mind to fill the silence. Talk about it casually.
+3. If the lore is an "Action-Prompt", do _exactly_ as the prompt instructs using the lore information **only as context**. **Do not** treat it like a Story-Prompt. Do not tell a story. Only **allude** to the lore indirectly as you perform the instructed action.
+4. If you have already mentioned this topic within the past 5 messages, then just say something that would be engaging and appropriate for the current context instead, or address the silence directly.

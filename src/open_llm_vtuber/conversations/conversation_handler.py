@@ -84,8 +84,10 @@ async def handle_conversation_trigger(
     metadata = None
 
     if msg_type == "ai-speak-signal":
-        # 75% chance to activate proactive speech at all
-        if random.random() < 0.75:
+        roll = random.random() 
+        logger.debug(f"Proactive speak activation roll={roll:.2f}")
+        # 30% chance to skip proactive speech
+        if roll < 0.30:
             logger.debug("Proactive speak skipped (random activation roll failed)")
             await websocket.send_text(
                 json.dumps(
