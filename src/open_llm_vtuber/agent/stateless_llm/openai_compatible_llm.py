@@ -30,6 +30,7 @@ class AsyncLLM(StatelessLLMInterface):
         organization_id: str = "z",
         project_id: str = "z",
         temperature: float = 1.0,
+        reasoning_effort: str | None = None,
     ):
         """
         Initializes an instance of the `AsyncLLM` class.
@@ -45,6 +46,7 @@ class AsyncLLM(StatelessLLMInterface):
         self.base_url = base_url
         self.model = model
         self.temperature = temperature
+        self.reasoning_effort = reasoning_effort
         self.client = AsyncOpenAI(
             base_url=base_url,
             organization=organization_id,
@@ -97,14 +99,18 @@ class AsyncLLM(StatelessLLMInterface):
 
             available_tools = tools if self.support_tools else NOT_GIVEN
 
-            stream: AsyncStream[
-                ChatCompletionChunk
-            ] = await self.client.chat.completions.create(
-                messages=messages_with_system,
-                model=self.model,
-                stream=True,
-                temperature=self.temperature,
-                tools=available_tools,
+            completion_kwargs = {
+                "messages": messages_with_system,
+                "model": self.model,
+                "stream": True,
+                "temperature": self.temperature,
+                "tools": available_tools,
+            }
+            if self.reasoning_effort is not None:
+                completion_kwargs["reasoning_effort"] = self.reasoning_effort
+
+            stream: AsyncStream[ChatCompletionChunk] = await self.client.chat.completions.create(
+                **completion_kwargs
             )
             logger.debug(
                 f"Tool Support: {self.support_tools}, Available tools: {available_tools}"
@@ -226,6 +232,7 @@ class AsyncLLM(StatelessLLMInterface):
             logger.info(f"Model: {self.model}")
             logger.info(f"Messages: {messages}")
             logger.info(f"temperature: {self.temperature}")
+            logger.info(f"reasoning_effort: {self.reasoning_effort}")
             yield "Error calling the chat endpoint: Error occurred while generating response. See the logs for details."
 
         finally:
