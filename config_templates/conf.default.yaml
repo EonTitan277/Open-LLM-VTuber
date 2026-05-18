@@ -55,7 +55,7 @@ character_config:
         # choose one of the llm provider from the llm_config
         # and set the required parameters in the corresponding field
         # examples: 
-        # 'openai_compatible_llm', 'llama_cpp_llm', 'claude_llm', 'ollama_llm'
+        # 'openai_compatible_llm', 'llama_cpp_llm', 'grok_llm', 'claude_llm', 'ollama_llm'
         # 'openai_llm', 'gemini_llm', 'zhipu_llm', 'deepseek_llm', 'groq_llm'
         # 'mistral_llm', 'lmstudio_llm', and more
         llm_provider: 'ollama_llm'
@@ -116,6 +116,18 @@ character_config:
         # This is the method to use for prompting the interruption signal. 
         # If the provider supports inserting system prompt anywhere in the chat memory, use 'system'. 
         # Otherwise, use 'user'. You don't usually need to change this setting.
+
+      # xAPI (Grok) Configuration
+      grok_llm:
+        base_url: 'https://api.x.ai/v1'
+        llm_api_key: 'Your xAPI key'
+        organization_id: null
+        project_id: null
+        model: 'grok-4.20-0309-non-reasoning'
+        temperature: 0.7 # value between 0 to 2
+        reasoning_effort: null # optional: none, minimal, low, medium, high, xhigh
+        interrupt_method: 'user'
+        stream: True # !! Not yet added as a feature. !!
 
       # Claude API Configuration
       claude_llm:

@@ -195,6 +195,12 @@ class GroqConfig(OpenAICompatibleConfig):
     )
 
 
+class GrokConfig(OpenAICompatibleConfig):
+    """Configuration for xAI Grok API."""
+
+    base_url: str = Field("https://api.x.ai/v1", alias="base_url")
+
+
 class ClaudeConfig(StatelessLLMBaseConfig):
     """Configuration for OpenAI Official API."""
 
@@ -258,6 +264,7 @@ class StatelessLLMConfigs(I18nMixin, BaseModel):
     zhipu_llm: ZhipuConfig | None = Field(None, alias="zhipu_llm")
     deepseek_llm: DeepseekConfig | None = Field(None, alias="deepseek_llm")
     groq_llm: GroqConfig | None = Field(None, alias="groq_llm")
+    grok_llm: GrokConfig | None = Field(None, alias="grok_llm")
     claude_llm: ClaudeConfig | None = Field(None, alias="claude_llm")
     llama_cpp_llm: LlamaCppConfig | None = Field(None, alias="llama_cpp_llm")
     mistral_llm: MistralConfig | None = Field(None, alias="mistral_llm")
@@ -288,6 +295,7 @@ class StatelessLLMConfigs(I18nMixin, BaseModel):
             en="Configuration for Deepseek API", zh="Deepseek API 配置"
         ),
         "groq_llm": Description(en="Configuration for Groq API", zh="Groq API 配置"),
+        "grok_llm": Description(en="Configuration for xAI Grok API", zh="xAI Grok API 配置"),
         "claude_llm": Description(
             en="Configuration for Claude API", zh="Claude API配置"
         ),

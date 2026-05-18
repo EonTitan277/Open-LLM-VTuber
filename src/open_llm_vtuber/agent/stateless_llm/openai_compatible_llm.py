@@ -228,9 +228,10 @@ class AsyncLLM(StatelessLLMInterface):
                 yield "__API_NOT_SUPPORT_TOOLS__"
                 return
             logger.error(f"LLM API: Error occurred: {e}")
+            logger.error(f"  Status code: {getattr(e, 'status_code', 'N/A')}")
+            logger.error(f"  Response body: {getattr(e, 'body', 'N/A')}")
             logger.info(f"Base URL: {self.base_url}")
             logger.info(f"Model: {self.model}")
-            logger.info(f"Messages: {messages}")
             logger.info(f"temperature: {self.temperature}")
             logger.info(f"reasoning_effort: {self.reasoning_effort}")
             yield "Error calling the chat endpoint: Error occurred while generating response. See the logs for details."
