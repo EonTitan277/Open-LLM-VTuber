@@ -209,6 +209,13 @@ character_config:
       compute_type: 'int8'
       prompt: '' # You can put a prompt here to help the model understand the context of the audio
 
+    whisper_api:
+      base_url: 'http://localhost:7860/' # Base URL of the Whisper API server
+      api_key: '' # API key for authentication (leave blank if not required)
+      model: 'deepdml/faster-whisper-large-v3-turbo-ct2' # model name from hf hub
+      language: '' # en, zh, or something else. leave blank for auto-detect.
+      prompt: '' # You can put a prompt here to help the model understand the context of the audio
+
     whisper_cpp:
       # all available models are listed on https://abdeladim-s.github.io/pywhispercpp/#pywhispercpp.constants.AVAILABLE_MODELS
       model_name: 'small'

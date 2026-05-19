@@ -189,6 +189,13 @@ character_config:
       compute_type: 'int8'
       prompt: '' # 提示词，用于辅助生成正确的文本
 
+    whisper_api:
+      base_url: 'http://localhost:7860/' # Whisper API 服务器的基准 URL
+      api_key: '' # 用于身份验证的 API 密钥（如果不需要，请留空）
+      model: 'deepdml/faster-whisper-large-v3-turbo-ct2' # 来自 HF Hub 的模型名称
+      language: '' # en、zh 或其他语言。留空表示自动检测。
+      prompt: '' # 您可以在此处添加提示语，以帮助模型理解音频的上下文
+
     whisper_cpp:
       # 所有可用模型都列在 https://abdeladim-s.github.io/pywhispercpp/#pywhispercpp.constants.AVAILABLE_MODELS
       model_name: 'small' # 模型名称
