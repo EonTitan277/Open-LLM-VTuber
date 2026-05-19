@@ -1,6 +1,9 @@
 # ignore the user configuration file
 conf.yaml
 
+# ignore AI generated plans
+*plan.md
+
 # ignore non-default background images
 /backgrounds/*
 !/backgrounds/README.md

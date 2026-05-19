@@ -215,6 +215,7 @@ character_config:
       model: 'deepdml/faster-whisper-large-v3-turbo-ct2' # model name from hf hub
       language: '' # en, zh, or something else. leave blank for auto-detect.
       prompt: '' # You can put a prompt here to help the model understand the context of the audio
+      hotwords: '' # Comma-separated list of hotwords to help the model recognize specific words better (e.g., "Mili, VTuber, OpenAI")
 
     whisper_cpp:
       # all available models are listed on https://abdeladim-s.github.io/pywhispercpp/#pywhispercpp.constants.AVAILABLE_MODELS
