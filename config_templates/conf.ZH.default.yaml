@@ -195,6 +195,7 @@ character_config:
       model: 'deepdml/faster-whisper-large-v3-turbo-ct2' # 来自 HF Hub 的模型名称
       language: '' # en、zh 或其他语言。留空表示自动检测。
       prompt: '' # 您可以在此处添加提示语，以帮助模型理解音频的上下文
+      hotwords: '' # 用于帮助模型更好识别特定词汇的热词列表（例如："Mili, VTuber, OpenAI"）
 
     whisper_cpp:
       # 所有可用模型都列在 https://abdeladim-s.github.io/pywhispercpp/#pywhispercpp.constants.AVAILABLE_MODELS

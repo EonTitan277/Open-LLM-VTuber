@@ -1,7 +1,7 @@
 <h3 align="center">
 
 > *(我使用 DeepL 翻译了这一部分。如有错误，敬请谅解。)*
-**🪧 个人分支说明**：这是 [Open-LLM-VTuber](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber) 的个人分支，仅供我个人使用。其中包含了一些对我个人有用的额外功能和修复。我目前并未积极维护此分支，也不会将其与上游代码保持同步。所有新代码和修改均由 [Claude](https://claude.ai/) 生成。
+**🪧 个人分支说明**：这是 [Open-LLM-VTuber](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber) 的个人分支，仅供我个人使用。其中包含了一些对我个人有用的额外功能和修复。我目前并未积极维护此分支，也不会将其与上游代码保持同步。所有新代码以及大部分修改均由人工智能生成。
 
 </h3>
 

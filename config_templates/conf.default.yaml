@@ -192,7 +192,7 @@ character_config:
 
   # === Automatic Speech Recognition ===
   asr_config:
-    # speech to text model options: 'faster_whisper', 'whisper_cpp', 'whisper', 'azure_asr', 'fun_asr', 'groq_whisper_asr', 'sherpa_onnx_asr'
+    # speech to text model options: 'faster_whisper', 'whisper_cpp', 'whisper', 'azure_asr', 'fun_asr', 'groq_whisper_asr', 'whisper_api', 'sherpa_onnx_asr'
     asr_model: 'sherpa_onnx_asr'
 
     azure_asr:
@@ -212,7 +212,7 @@ character_config:
     whisper_api:
       base_url: 'http://localhost:7860/' # Base URL of the Whisper API server
       api_key: '' # API key for authentication (leave blank if not required)
-      model: 'deepdml/faster-whisper-large-v3-turbo-ct2' # model name from hf hub
+      model: 'deepdml/faster-whisper-large-v3-turbo-ct2' # model name on the Whisper API server
       language: '' # en, zh, or something else. leave blank for auto-detect.
       prompt: '' # You can put a prompt here to help the model understand the context of the audio
       hotwords: '' # Comma-separated list of hotwords to help the model recognize specific words better (e.g., "Mili, VTuber, OpenAI")

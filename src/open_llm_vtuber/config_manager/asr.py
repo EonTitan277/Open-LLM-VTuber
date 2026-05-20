@@ -7,7 +7,7 @@ from .i18n import I18nMixin, Description
 class AzureASRConfig(I18nMixin):
     """Configuration for Azure ASR service."""
 
-    api_key: str = Field(..., alias="api_key")
+    api_key: str = Field("", alias="api_key")
     region: str = Field(..., alias="region")
     languages: list[str] = Field(["en-US", "zh-CN"], alias="languages")
 
@@ -16,11 +16,11 @@ class AzureASRConfig(I18nMixin):
             en="API key for Azure ASR service", zh="Azure ASR 服务的 API 密钥"
         ),
         "region": Description(
-            en="Azure region (e.g., eastus)", zh="Azure 区域（如 eastus)"
+            en="Azure region (e.g., eastus)", zh="Azure 区域 (如 eastus)"
         ),
         "languages": Description(
             en="List of languages to detect (e.g., ['en-US', 'zh-CN'])",
-            zh="要检测的语言列表（如 ['en-US', 'zh-CN'])",
+            zh="要检测的语言列表 (如 ['en-US', 'zh-CN'])",
         ),
     }
 
@@ -45,15 +45,15 @@ class FasterWhisperConfig(I18nMixin):
         ),
         "language": Description(
             en="Language code (e.g., en, zh) or empty string for auto-detect",
-            zh="语言代码（如 en, zh）或留空以自动检测",
+            zh="语言代码 (如 en, zh) 或留空以自动检测",
         ),
         "device": Description(
             en="Device to use for inference (cpu, cuda, or auto)",
-            zh="推理设备（cpu, cuda, auto）",
+            zh="推理设备 (cpu, cuda, auto)",
         ),
         "compute_type": Description(
             en="Compute type for the model (int8, float16, or float32)",
-            zh="模型的计算类型（int8、float16 或 float32）",
+            zh="模型的计算类型 (int8、float16 或 float32)",
         ),
         "prompt": Description(
             en="An initial prompt to provide context or guide the transcription. Language of the prompt should match the audio language.",
@@ -85,7 +85,7 @@ class WhisperCPPConfig(I18nMixin):
             en="Print progress information", zh="打印进度信息"
         ),
         "language": Description(
-            en="Language code (e.g., auto, en, zh)", zh="语言代码（如 auto、en、zh）"
+            en="Language code (e.g., auto, en, zh)", zh="语言代码 (如 auto、en、zh)"
         ),
         "prompt": Description(
             en="An initial prompt to provide context or guide the transcription. Language of the prompt should match the audio language.",
@@ -107,7 +107,7 @@ class WhisperConfig(I18nMixin):
             en="Root directory for downloading models", zh="模型下载根目录"
         ),
         "device": Description(
-            en="Device to use for inference (cpu or cuda)", zh="推理设备（cpu 或 cuda）"
+            en="Device to use for inference (cpu or cuda)", zh="推理设备 (cpu 或 cuda)"
         ),
         "prompt": Description(
             en="An initial prompt to provide context or guide the transcription. Language of the prompt should match the audio language.",
@@ -136,7 +136,7 @@ class FunASRConfig(I18nMixin):
         ),
         "punc_model": Description(en="Punctuation model", zh="标点符号模型"),
         "device": Description(
-            en="Device to use for inference (cpu or cuda)", zh="推理设备（cpu 或 cuda）"
+            en="Device to use for inference (cpu or cuda)", zh="推理设备 (cpu 或 cuda)"
         ),
         "disable_update": Description(
             en="Disable checking for FunASR updates on launch",
@@ -148,13 +148,13 @@ class FunASRConfig(I18nMixin):
         ),
         "hub": Description(
             en="Model hub to use (ms for ModelScope, hf for Hugging Face)",
-            zh="使用的模型仓库（ms 为 ModelScope，hf 为 Hugging Face）",
+            zh="使用的模型仓库 (ms 为 ModelScope,hf 为 Hugging Face)",
         ),
         "use_itn": Description(
             en="Enable inverse text normalization", zh="启用反向文本归一化"
         ),
         "language": Description(
-            en="Language code (e.g., auto, zh, en)", zh="语言代码（如 auto、zh、en）"
+            en="Language code (e.g., auto, zh, en)", zh="语言代码 (如 auto、zh、en)"
         ),
     }
 
@@ -176,7 +176,45 @@ class GroqWhisperASRConfig(I18nMixin):
         ),
         "lang": Description(
             en="Language code (leave empty for auto-detect)",
-            zh="语言代码（留空以自动检测）",
+            zh="语言代码 (留空以自动检测)",
+        ),
+    }
+
+
+class WhisperAPIConfig(I18nMixin):
+    """Configuration for Whisper API ASR."""
+
+    base_url: str = Field(..., alias="base_url")
+    api_key: str = Field(..., alias="api_key")
+    model: str = Field(..., alias="model")
+    language: Optional[str] = Field(None, alias="language")
+    prompt: Optional[str] = Field(None, alias="prompt")
+    hotwords: Optional[str] = Field(None, alias="hotwords")
+
+    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+        "base_url": Description(
+            en="Base URL for the Whisper API service",
+            zh="Whisper API 服务的基础 URL",
+        ),
+        "api_key": Description(
+            en="API key for the Whisper API service (leave blank if not required)",
+            zh="Whisper API 服务的 API 密钥（如果不需要可留空）",
+        ),
+        "model": Description(
+            en="Name of the Whisper API model to use",
+            zh="要使用的 Whisper API 模型名称",
+        ),
+        "language": Description(
+            en="Language code (leave empty for auto-detect)",
+            zh="语言代码 (留空以自动检测)",
+        ),
+        "prompt": Description(
+            en="An optional prompt to guide the transcription",
+            zh="用于引导转录的可选提示词",
+        ),
+        "hotwords": Description(
+            en="Optional hotwords to bias the transcription",
+            zh="用于偏向转录结果的可选热词",
         ),
     }
 
@@ -217,15 +255,15 @@ class SherpaOnnxASRConfig(I18nMixin):
         ),
         "encoder": Description(
             en="Path to encoder model (for transducer)",
-            zh="编码器模型路径（用于 transducer）",
+            zh="编码器模型路径 (用于 transducer)",
         ),
         "decoder": Description(
             en="Path to decoder model (for transducer)",
-            zh="解码器模型路径（用于 transducer）",
+            zh="解码器模型路径 (用于 transducer)",
         ),
         "joiner": Description(
             en="Path to joiner model (for transducer)",
-            zh="连接器模型路径（用于 transducer）",
+            zh="连接器模型路径 (用于 transducer)",
         ),
         "paraformer": Description(
             en="Path to paraformer model", zh="Paraformer 模型路径"
@@ -255,7 +293,7 @@ class SherpaOnnxASRConfig(I18nMixin):
         ),
         "provider": Description(
             en="Provider for inference (cpu or cuda) (cuda option needs additional settings. Please check our docs)",
-            zh="推理平台（cpu 或 cuda）(cuda 需要额外配置，请参考文档)",
+            zh="推理平台 (cpu 或 cuda) (cuda 需要额外配置，请参考文档)",
         ),
     }
 
@@ -317,6 +355,7 @@ class ASRConfig(I18nMixin):
         "azure_asr",
         "fun_asr",
         "groq_whisper_asr",
+        "whisper_api",
         "sherpa_onnx_asr",
     ] = Field(..., alias="asr_model")
     azure_asr: Optional[AzureASRConfig] = Field(None, alias="azure_asr")
@@ -327,6 +366,7 @@ class ASRConfig(I18nMixin):
     groq_whisper_asr: Optional[GroqWhisperASRConfig] = Field(
         None, alias="groq_whisper_asr"
     )
+    whisper_api: Optional[WhisperAPIConfig] = Field(None, alias="whisper_api")
     sherpa_onnx_asr: Optional[SherpaOnnxASRConfig] = Field(
         None, alias="sherpa_onnx_asr"
     )
@@ -347,6 +387,9 @@ class ASRConfig(I18nMixin):
         "groq_whisper_asr": Description(
             en="Configuration for Groq Whisper ASR", zh="Groq Whisper ASR 配置"
         ),
+        "whisper_api": Description(
+            en="Configuration for Whisper API ASR", zh="Whisper API ASR 配置"
+        ),
         "sherpa_onnx_asr": Description(
             en="Configuration for Sherpa Onnx ASR", zh="Sherpa Onnx ASR 配置"
         ),
@@ -357,19 +400,21 @@ class ASRConfig(I18nMixin):
         asr_model = values.asr_model
 
         # Only validate the selected ASR model
-        if asr_model == "AzureASR" and values.azure_asr is not None:
+        if asr_model == "azure_asr" and values.azure_asr is not None:
             values.azure_asr.model_validate(values.azure_asr.model_dump())
-        elif asr_model == "Faster-Whisper" and values.faster_whisper is not None:
+        elif asr_model == "faster_whisper" and values.faster_whisper is not None:
             values.faster_whisper.model_validate(values.faster_whisper.model_dump())
-        elif asr_model == "WhisperCPP" and values.whisper_cpp is not None:
+        elif asr_model == "whisper_cpp" and values.whisper_cpp is not None:
             values.whisper_cpp.model_validate(values.whisper_cpp.model_dump())
-        elif asr_model == "Whisper" and values.whisper is not None:
+        elif asr_model == "whisper" and values.whisper is not None:
             values.whisper.model_validate(values.whisper.model_dump())
-        elif asr_model == "FunASR" and values.fun_asr is not None:
+        elif asr_model == "fun_asr" and values.fun_asr is not None:
             values.fun_asr.model_validate(values.fun_asr.model_dump())
-        elif asr_model == "GroqWhisperASR" and values.groq_whisper_asr is not None:
+        elif asr_model == "groq_whisper_asr" and values.groq_whisper_asr is not None:
             values.groq_whisper_asr.model_validate(values.groq_whisper_asr.model_dump())
-        elif asr_model == "SherpaOnnxASR" and values.sherpa_onnx_asr is not None:
+        elif asr_model == "whisper_api" and values.whisper_api is not None:
+            values.whisper_api.model_validate(values.whisper_api.model_dump())
+        elif asr_model == "sherpa_onnx_asr" and values.sherpa_onnx_asr is not None:
             values.sherpa_onnx_asr.model_validate(values.sherpa_onnx_asr.model_dump())
 
         return values

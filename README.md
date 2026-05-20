@@ -1,6 +1,6 @@
 <h3 align="center">
 
-> **🪧 Personal Fork Notice**: This is a personal fork of [Open-LLM-VTuber](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber) maintained for my own use. It includes additional features and fixes that benefit me personally. I am not actively maintaining this fork or keeping it in sync with upstream. All new code and modifications were generated with [Claude](https://claude.ai/).
+> **🪧 Personal Fork Notice**: This is a personal fork of [Open-LLM-VTuber](https://github.com/Open-LLM-VTuber/Open-LLM-VTuber) maintained for my own use. It includes additional features and fixes that benefit me personally. I am not actively maintaining this fork or keeping it in sync with upstream. All new code and most modifications were generated with AI.
 
 </h3>
 
