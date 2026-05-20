@@ -18,7 +18,7 @@ from .conversation_utils import EMOJI_LIST
 from .types import GroupConversationState
 from prompts import prompt_loader
 
-_LOREBOOKS_DIR = os.path.join("characters", "lorebooks")
+_LOREBOOKS_DIR = "lorebooks"
 # Per-lorebook cache: maps lorebook name -> lore dict (or None if load failed)
 _lorebook_cache: dict[str, dict | None] = {}
 

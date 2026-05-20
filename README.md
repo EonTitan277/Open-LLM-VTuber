@@ -9,8 +9,10 @@
 - **🎲 Random Proactive Prompts** – AI now probabilistically generates proactive speech using either lore-based prompts (from lorebook entries) or regular proactive prompts, with fallback behavior for robustness
 - **🗣️ Improved TTS Task Management** – Centralized TTSTaskManager.wait_for_completion method for better handling of pending TTS tasks and payload queue coordination
 - **🚫 Enhanced Error Logging** – Full exception tracebacks now captured for TTS-related errors to improve debugging diagnostics
+- **🤖 Grok API Support** – Added support for the xAI Grok API as a new stateless LLM provider
+- **🎧 Whisper API Support** – Added Whisper API ASR backend support for remote transcription services
 
-## ℹ️ How To Use My Fork
+## ℹ️ How to use my fork
 1. Follow the [Quick Setup Guide](https://docs.llmvtuber.com/en/docs/quick-start)
 2. Clone my fork of the [Frontend (Open-LLM-VTuber-Web)](https://github.com/EonTitan277/Open-LLM-VTuber-Web)
    - Follow the Readme instructions for that repo.

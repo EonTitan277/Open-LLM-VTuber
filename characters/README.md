@@ -102,8 +102,8 @@ Here is a breakdown of the core fields under `character_config`:
 
   - `lorebook` (string, optional):
 
-      - **Purpose**: The name of the lorebook file (without `.yaml` extension) located in the `characters/lorebooks/` directory. When set, the AI will occasionally draw a random lore entry from this file to use as a proactive-speak prompt, enriching conversations with character-specific backstory and lore.
-      - **Example**: `'my_character'` (loads `characters/lorebooks/my_character.yaml`)
+      - **Purpose**: The name of the lorebook file (without `.yaml` extension) located in the `lorebooks/` directory. When set, the AI will occasionally draw a random lore entry from this file to use as a proactive-speak prompt, enriching conversations with character-specific backstory and lore.
+      - **Example**: `'my_character'` (loads `lorebooks/my_character.yaml`)
       - See the [Lorebooks](#-lorebooks) section below for details on creating lorebook files.
 
   - `persona_prompt` (string):
@@ -128,12 +128,11 @@ Lorebooks give your character a pool of lore entries the AI can draw from when s
 
 ### File Location
 
-Lorebook files live in the `characters/lorebooks/` directory and must be named to match the `lorebook` field in your character config.
+Lorebook files live in the `lorebooks/` directory and must be named to match the `lorebook` field in your character config.
 
 ```
-characters/
-  lorebooks/
-    my_character.yaml   ← loaded when lorebook: 'my_character'
+lorebooks/
+  my_character.yaml   ← loaded when lorebook: 'my_character'
 ```
 
 ### File Format
@@ -141,7 +140,7 @@ characters/
 Each lorebook is a YAML file with a single top-level `lore:` key containing named entries. Entry names are just labels for your own reference — the AI sees only the text value.
 
 ```yaml
-# characters/lorebooks/my_character.yaml
+# lorebooks/my_character.yaml
 
 lore:
   origin_story: |
@@ -165,7 +164,7 @@ Set the `lorebook` field in your character config (or in `conf.yaml` for the def
 character_config:
   conf_name: 'Zero'
   conf_uid: 'zero_001'
-  lorebook: 'my_character'   # loads characters/lorebooks/my_character.yaml
+  lorebook: 'my_character'   # loads lorebooks/my_character.yaml
   persona_prompt: |
     ...
 ```

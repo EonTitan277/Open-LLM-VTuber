@@ -1,4 +1,4 @@
-There has been a long silence from the user. Without drawing attention to this message, use the following lore prompt to stimulate the conversation:
+Without drawing attention to this message, use the following lore prompt to add depth to the conversation:
 <lore_prompt>
 <prompt>
 </lore_prompt>

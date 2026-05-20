@@ -71,7 +71,7 @@ The project uses a factory pattern for all AI engines:
 
 **Lorebook System**:
 - Location: `character.lorebook` field in each character's YAML config, referencing a separate YAML file
-- Format: Character lore entries (facts, backstory, personality details) stored in `characters/<character>.yaml`
+- Format: Character lore entries (facts, backstory, personality details) stored in `lorebooks/<character>.yaml`
 - Usage: Entries are sampled and fed into random proactive prompt generation so the character speaks about its own lore unprompted
 
 ### Configuration Management
@@ -126,7 +126,7 @@ The codebase uses the missing `_cleanup_failed_connection` method pattern - when
 - **Frontend**: `frontend/` (Git submodule)
 - **Live2D models**: `live2d-models/`
 - **Character definitions**: `characters/`
-- **Character lore entries**: `characters/<character>.yaml`
+- **Character lore entries**: `lorebooks/<character>.yaml`
 - **Chat history**: `chat_history/`
 - **Cache**: `cache/` (audio files, temporary data)
 

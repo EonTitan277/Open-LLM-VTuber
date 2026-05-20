@@ -23,7 +23,7 @@ system_config:
     # Prompt to enhance the LLM's ability to output speakable text
     # speakable_prompt: 'speakable_prompt'
     # Additional guidance for LLM on how to use tools
-    # tool_guidance_prompt: 'tool_guidance_prompt' 
+    # tool_guidance_prompt: 'tool_guidance_prompt'
 
 # configuration for the default character
 character_config:
