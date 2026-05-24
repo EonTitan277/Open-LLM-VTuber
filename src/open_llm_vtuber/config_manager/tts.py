@@ -596,6 +596,7 @@ class ElevenLabsTTSConfig(I18nMixin):
     similarity_boost: float = Field(0.5, alias="similarity_boost")
     style: float = Field(0.0, alias="style")
     use_speaker_boost: bool = Field(True, alias="use_speaker_boost")
+    pronunciation_dict_id: str = Field("", alias="pronunciation_dict_id")
 
     DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
         "api_key": Description(
@@ -626,6 +627,16 @@ class ElevenLabsTTSConfig(I18nMixin):
         "use_speaker_boost": Description(
             en="Enable speaker boost for better quality",
             zh="启用说话人增强以获得更好的质量",
+        ),
+        "pronunciation_dict_id": Description(
+            en=(
+                "ID of an existing pronunciation dictionary on your ElevenLabs account. "
+                "Leave empty to disable. Find the ID in the ElevenLabs dashboard or API."
+            ),
+            zh=(
+                "您ElevenLabs账户中已有发音词典的ID，留空则不使用。"
+                "可在 ElevenLabs 仪表板或 API 中找到该 ID。"
+            ),
         ),
     }
 

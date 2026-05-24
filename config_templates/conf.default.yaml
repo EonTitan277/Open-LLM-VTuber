@@ -470,6 +470,7 @@ character_config:
       similarity_boost: 0.5 # Voice similarity boost (0.0 to 1.0)
       style: 0.0 # Voice style exaggeration (0.0 to 1.0)
       use_speaker_boost: true # Enable speaker boost for better quality
+      pronunciation_dict_id: '' # ID of a pronunciation dictionary already on your ElevenLabs account. Leave empty to disable. Example: 'F8n0fMrpt250GBGvxw5T'
     
     cartesia_tts:
       api_key: ''

@@ -184,6 +184,7 @@ class TTSFactory:
                 similarity_boost=kwargs.get("similarity_boost", 0.5),
                 style=kwargs.get("style", 0.0),
                 use_speaker_boost=kwargs.get("use_speaker_boost", True),
+                pronunciation_dict_id=kwargs.get("pronunciation_dict_id", ""),
             )
         elif engine_type == "cartesia_tts":
             from .cartesia_tts import TTSEngine as CartesiaTTSEngine

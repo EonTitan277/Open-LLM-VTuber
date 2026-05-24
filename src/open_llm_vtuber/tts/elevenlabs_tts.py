@@ -24,6 +24,7 @@ class TTSEngine(TTSInterface):
         similarity_boost: float = 0.5,
         style: float = 0.0,
         use_speaker_boost: bool = True,
+        pronunciation_dict_id: str = "",
     ):
         """
         Initializes the ElevenLabs TTS engine.
@@ -37,6 +38,7 @@ class TTSEngine(TTSInterface):
             similarity_boost (float): Voice similarity boost (0.0 to 1.0).
             style (float): Voice style exaggeration (0.0 to 1.0).
             use_speaker_boost (bool): Enable speaker boost for better quality.
+            pronunciation_dict_id (str): Optional ElevenLabs pronunciation dictionary ID.
         """
         self.api_key = api_key
         self.voice_id = voice_id
@@ -46,6 +48,7 @@ class TTSEngine(TTSInterface):
         self.similarity_boost = similarity_boost
         self.style = style
         self.use_speaker_boost = use_speaker_boost
+        self._pronunciation_dict_locators: list | None = None
 
         # Determine file extension from output format
         if "mp3" in output_format:
@@ -61,6 +64,24 @@ class TTSEngine(TTSInterface):
         try:
             # Initialize ElevenLabs client
             self.client = ElevenLabs(api_key=api_key)
+            if pronunciation_dict_id:
+                try:
+                    resp = self.client.pronunciation_dictionaries.get(
+                        pronunciation_dict_id
+                    )
+                    self._pronunciation_dict_locators = [
+                        {
+                            "pronunciation_dictionary_id": resp.id,
+                            "version_id": resp.latest_version_id,
+                        }
+                    ]
+                    logger.info(
+                        f"Pronunciation dictionary '{resp.name}' resolved (version {resp.latest_version_id})."
+                    )
+                except Exception as e:
+                    logger.warning(
+                        f"Could not resolve pronunciation dictionary '{pronunciation_dict_id}': {e}. TTS will proceed without it."
+                    )
             logger.info("ElevenLabs TTS Engine initialized successfully")
         except Exception as e:
             logger.critical(f"Failed to initialize ElevenLabs client: {e}")
@@ -105,6 +126,7 @@ class TTSEngine(TTSInterface):
                     "style": self.style,
                     "use_speaker_boost": self.use_speaker_boost,
                 },
+                pronunciation_dictionary_locators=self._pronunciation_dict_locators,
             )
 
             # Write the audio data to file
