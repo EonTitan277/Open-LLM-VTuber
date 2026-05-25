@@ -101,9 +101,8 @@ async def handle_conversation_trigger(
 
         try:
             user_input = None
-            # Random chance to use lore prompt pool instead of the regular proactive prompt.
             lorebook_name = getattr(context.character_config, "lorebook", "") or ""
-            if lorebook_name and random.random() >= random.random():
+            if lorebook_name and random.random() >= 0.50:  # 50% chance to use lore prompt
                 user_input = _build_random_speak_prompt(lorebook_name)
                 if user_input is None:
                     logger.warning("Random speak prompt failed, falling back to proactive_speak_prompt")
