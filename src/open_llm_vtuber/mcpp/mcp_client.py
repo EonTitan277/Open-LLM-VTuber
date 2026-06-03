@@ -108,7 +108,15 @@ class MCPClient:
         """
         session = await self._ensure_server_running_and_get_session(server_name)
         logger.info(f"MCPC: Calling tool '{tool_name}' on server '{server_name}'...")
+        logger.debug(
+            f"MCPC: Tool call payload for '{tool_name}' on '{server_name}': {tool_args}"
+        )
         response = await session.call_tool(tool_name, tool_args)
+
+        logger.debug(
+            f"MCPC: Received response for tool '{tool_name}' on '{server_name}': "
+            f"isError={response.isError}, metadata={getattr(response, 'metadata', {})}"
+        )
 
         if response.isError:
             error_text = (

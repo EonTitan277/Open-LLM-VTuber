@@ -38,10 +38,10 @@ class ToolExecutor:
         parse_error: bool = False
 
         if isinstance(call, ToolCallObject):
-            tool_name = call.function.name
-            tool_id = call.id
+            tool_name = call.function.name or ""
+            tool_id = call.id or ""
             try:
-                tool_input = json.loads(call.function.arguments)
+                tool_input = json.loads(call.function.arguments or "{}")
             except json.JSONDecodeError:
                 logger.error(
                     f"Failed to decode OpenAI tool arguments for '{tool_name}'"
@@ -52,8 +52,8 @@ class ToolExecutor:
                 is_error = True
                 parse_error = True
         elif isinstance(call, dict):
-            tool_id = call.get("id")
-            tool_name = call.get("name")
+            tool_id = call.get("id") or ""
+            tool_name = call.get("name") or ""
             tool_input = call.get("input", call.get("args"))
 
             if tool_input is None:
@@ -79,7 +79,7 @@ class ToolExecutor:
         self,
         caller_mode: Literal["Claude", "OpenAI", "Prompt"],
         tool_id: str,
-        result_content: str,
+        result_content: str | list[Dict[str, Any]],
         is_error: bool,
     ) -> Dict[str, Any] | None:
         """Format tool result for LLM API."""
@@ -132,7 +132,7 @@ class ToolExecutor:
             arguments_str = item.get("arguments")
             if all([server, tool_name, arguments_str]):
                 try:
-                    args_dict = json.loads(arguments_str)
+                    args_dict = json.loads(str(arguments_str))
                     parsed_tools.append(
                         {
                             "name": tool_name,
@@ -171,6 +171,9 @@ class ToolExecutor:
                 parse_error,
             ) = self.parse_tool_call(call)
 
+            logger.debug(
+                f"ToolExecutor: Parsed tool call: name={tool_name}, id={tool_id}, input={tool_input}"
+            )
             logger.info(f"Executing tool: {call}")
 
             if parse_error:
@@ -330,6 +333,9 @@ class ToolExecutor:
             content_items = [{"type": "error", "text": text_content}]
             is_error = True
         else:
+            logger.debug(
+                f"ToolExecutor: Sending tool '{tool_name}' to server '{tool_info.related_server}' with input: {tool_input}"
+            )
             try:
                 result_dict = await self._mcp_client.call_tool(
                     server_name=tool_info.related_server,
