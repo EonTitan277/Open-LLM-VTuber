@@ -5,7 +5,6 @@
 </h3>
 
 ## 🌟 New Features
-- **📖 Lorebook Support** – Characters can now have associated lorebooks (YAML files with lore entries) that the AI draws from when speaking proactively, enabling richer and more contextual character dialogue
 - **🎲 Random Proactive Prompts** – AI now probabilistically generates proactive speech using either lore-based prompts (from lorebook entries) or regular proactive prompts, with fallback behavior for robustness
 - **🗣️ Improved TTS Task Management** – Centralized TTSTaskManager.wait_for_completion method for better handling of pending TTS tasks and payload queue coordination
 - **🚫 Enhanced Error Logging** – Full exception tracebacks now captured for TTS-related errors to improve debugging diagnostics
