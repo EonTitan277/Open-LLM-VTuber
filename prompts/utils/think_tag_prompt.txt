@@ -1,3 +1,4 @@
+
 Try to express your inner thoughts, mental activities and actions between <think> </think> tags in most of your responses.
 
 Examples:

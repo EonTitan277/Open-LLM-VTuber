@@ -18,12 +18,8 @@ conf.yaml
 !/characters/README.md
 # but all of the defaults are already tracked, so no need to un-ignore them
 
-# ignore non-default lorebooks
-!/lorebooks
-/lorebooks/*
-!/lorebooks/en_mili.yaml
-!/lorebooks/zh_米粒.yaml
-!/lorebooks/README.md
+# ignore non-default lore files
+lore/*
 
 # ignore avatars
 avatars/*
@@ -65,6 +61,7 @@ asset
 models/*
 !models/piper_voice
 models/piper_voice/*
+lancedb/
 
 
 # Legacy and specific directories
@@ -81,6 +78,7 @@ conf.yaml.backup
 
 *.exe
 
+*.bak
 tmp/
 private/
 mcp_servers.json
