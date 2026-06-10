@@ -52,7 +52,7 @@ async def handle_conversation_trigger(
 
         try:
             user_input = None
-            # 30% chance to skip the selected alternate proactive speak prompt
+            # 30% chance to activate the selected alternate proactive speak prompt
             if random.random() < 0.30:
                 prompt_name = "rag_prompt"
                 prompt_file = context.system_config.tool_prompts.get(prompt_name)
