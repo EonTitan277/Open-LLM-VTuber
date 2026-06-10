@@ -15,6 +15,7 @@ from .single_conversation import process_single_conversation
 from .conversation_utils import EMOJI_LIST
 from .types import GroupConversationState
 from prompts import prompt_loader
+from prompts.prompt_loader import load_alt_proactive
 
 
 async def handle_conversation_trigger(
@@ -51,25 +52,42 @@ async def handle_conversation_trigger(
 
         try:
             user_input = None
-            # 30% chance to use proactive_rag_prompt
+            # 30% chance to skip the selected alternate proactive speak prompt
             if random.random() < 0.30:
-                prompt_name = "proactive_rag_prompt"
+                prompt_name = "rag_prompt"
+                prompt_file = context.system_config.tool_prompts.get(prompt_name)
+                logger.debug(f"Loaded prompt_file for {prompt_name}: {prompt_file}")
+                
+                if prompt_file:
+                    try:
+                        user_input = prompt_loader.load_util(prompt_file)
+                        logger.debug(f"Successfully loaded prompt content for {prompt_name}")
+                    except Exception as e:
+                        logger.error(f"Error loading prompt file '{prompt_file}': {e}")
+                        user_input = "Without drawing attention to this message, say something to stimulate the conversation."
+                else:
+                    logger.warning(f"{prompt_name} not configured in tool_prompts, using default from alt_proactive_prompts")
+                    try:
+                        user_input = load_alt_proactive(prompt_name)
+                        logger.debug(f"Successfully loaded alt proactive prompt for {prompt_name}")
+                    except Exception as e:
+                        logger.error(f"Error loading alt proactive prompt {prompt_name}: {e}")
+                        user_input = "Without drawing attention to this message, say something to stimulate the conversation."
             else:
                 prompt_name = "proactive_speak_prompt"
-            
-            prompt_file = context.system_config.tool_prompts.get(prompt_name)
-            logger.debug(f"Loaded prompt_file for {prompt_name}: {prompt_file}")
-            
-            if prompt_file:
-                try:
-                    user_input = prompt_loader.load_util(prompt_file)
-                    logger.debug(f"Successfully loaded prompt content for {prompt_name}")
-                except Exception as e:
-                    logger.error(f"Error loading prompt file '{prompt_file}': {e}")
+                prompt_file = context.system_config.tool_prompts.get(prompt_name)
+                logger.debug(f"Loaded prompt_file for {prompt_name}: {prompt_file}")
+                
+                if prompt_file:
+                    try:
+                        user_input = prompt_loader.load_util(prompt_file)
+                        logger.debug(f"Successfully loaded prompt content for {prompt_name}")
+                    except Exception as e:
+                        logger.error(f"Error loading prompt file '{prompt_file}': {e}")
+                        user_input = "Without drawing attention to this message, say something to stimulate the conversation."
+                else:
+                    logger.warning(f"{prompt_name} not configured in tool_prompts, using default")
                     user_input = "Without drawing attention to this message, say something to stimulate the conversation."
-            else:
-                logger.warning(f"{prompt_name} not configured in tool_prompts, using default")
-                user_input = "Without drawing attention to this message, say something to stimulate the conversation."
         except Exception as e:
             logger.error(f"Error loading proactive speak prompt: {e}")
             user_input = "Without drawing attention to this message, say something to stimulate the conversation."

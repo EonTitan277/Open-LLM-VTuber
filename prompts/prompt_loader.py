@@ -7,6 +7,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 PROMPT_DIR = current_dir
 PERSONA_PROMPT_DIR = os.path.join(PROMPT_DIR, "persona")
 UTIL_PROMPT_DIR = os.path.join(PROMPT_DIR, "utils")
+ALT_PROACTIVE_PROMPT_DIR = os.path.join(UTIL_PROMPT_DIR, "alt_proactive_prompts")
 
 
 def _load_file_content(file_path: str) -> str:
@@ -71,4 +72,14 @@ def load_util(util_name: str) -> str:
         return _load_file_content(util_file_path)
     except Exception as e:
         logger.error(f"Error loading util {util_name}: {e}")
+        raise
+
+
+def load_alt_proactive(prompt_name: str) -> str:
+    """Load the content of a specific alternate proactive prompt file."""
+    prompt_file_path = os.path.join(ALT_PROACTIVE_PROMPT_DIR, f"{prompt_name}.txt")
+    try:
+        return _load_file_content(prompt_file_path)
+    except Exception as e:
+        logger.error(f"Error loading alt proactive prompt {prompt_name}: {e}")
         raise
