@@ -13,7 +13,7 @@ from .conversation_utils import (
     cleanup_conversation,
     EMOJI_LIST,
 )
-from .types import WebSocketSend
+from .types import WebSocketSend, safe_websocket_send
 from .tts_manager import TTSTaskManager
 from ..chat_history_manager import store_message
 from ..service_context import ServiceContext
@@ -98,7 +98,10 @@ async def process_single_conversation(
                     output_item["name"] = context.character_config.character_name
                     logger.debug(f"Sending tool status update: {output_item}")
 
-                    await websocket_send(json.dumps(output_item))
+                    if not await safe_websocket_send(
+                        websocket_send, json.dumps(output_item)
+                    ):
+                        raise ConnectionError("WebSocket connection closed during tool status update")
 
                 elif isinstance(output_item, (SentenceOutput, AudioOutput)):
                     # Handle SentenceOutput or AudioOutput
@@ -126,14 +129,16 @@ async def process_single_conversation(
             logger.exception(
                 f"Error processing agent response stream: {e}"
             )  # Log with stack trace
-            await websocket_send(
+            if not await safe_websocket_send(
+                websocket_send,
                 json.dumps(
                     {
                         "type": "error",
                         "message": f"Error processing agent response: {str(e)}",
                     }
-                )
-            )
+                ),
+            ):
+                logger.warning("Could not send error message to client (connection closed)")
             # full_response will contain partial response before error
         # --- End processing agent response ---
 
@@ -161,9 +166,11 @@ async def process_single_conversation(
         raise
     except Exception as e:
         logger.exception(f"Error in conversation chain: {e}") # Changed from "logger.error" to "logger.exception" to help diagnose my TTS issue.
-        await websocket_send(
-            json.dumps({"type": "error", "message": f"Conversation error: {str(e)}"})
-        )
+        if not await safe_websocket_send(
+            websocket_send,
+            json.dumps({"type": "error", "message": f"Conversation error: {str(e)}"}),
+        ):
+            logger.warning("Could not send error message to client (connection closed)")
         raise
     finally:
         cleanup_conversation(tts_manager, session_emoji)

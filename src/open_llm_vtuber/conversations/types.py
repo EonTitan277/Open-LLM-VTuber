@@ -1,12 +1,37 @@
+import websockets
 from typing import List, Dict, Callable, Optional, TypedDict, Awaitable, ClassVar
 from dataclasses import dataclass, field
 from pydantic import BaseModel
+from loguru import logger
 
 from ..agent.output_types import Actions, DisplayText
 
 # Type definitions
 WebSocketSend = Callable[[str], Awaitable[None]]
 BroadcastFunc = Callable[[List[str], dict, Optional[str]], Awaitable[None]]
+
+
+async def safe_websocket_send(websocket_send: WebSocketSend, message: str) -> bool:
+    """
+    Safely send a WebSocket message with error handling for connection issues.
+    
+    Returns:
+        bool: True if message was sent successfully, False if connection was closed
+    """
+    try:
+        await websocket_send(message)
+        return True
+    except websockets.exceptions.ConnectionClosed:
+        logger.warning("WebSocket connection closed, stopping message sending")
+        return False
+    except AssertionError as e:
+        if "waiter is None or waiter.cancelled()" in str(e):
+            logger.warning("WebSocket drain assertion error (connection likely closed)")
+            return False
+        raise
+    except Exception as e:
+        logger.error(f"Error sending WebSocket message: {e}")
+        return False
 
 
 class AudioPayload(TypedDict):
