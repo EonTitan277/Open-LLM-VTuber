@@ -83,3 +83,29 @@ def load_alt_proactive(prompt_name: str) -> str:
     except Exception as e:
         logger.error(f"Error loading alt proactive prompt {prompt_name}: {e}")
         raise
+
+
+def list_alt_proactive_prompts() -> list[str]:
+    """
+    Scan the alt_proactive_prompts directory and return a list of available
+    prompt names (filenames without the .txt extension, for cleaner display).
+
+    Returns an empty list (not an error) if the directory does not exist or is empty.
+    Filenames with spaces or special characters are preserved as-is (only the extension is stripped).
+    """
+    if not os.path.isdir(ALT_PROACTIVE_PROMPT_DIR):
+        logger.warning(f"Alt proactive prompts directory not found: {ALT_PROACTIVE_PROMPT_DIR}")
+        return []
+
+    prompt_names: list[str] = []
+    try:
+        for entry in os.scandir(ALT_PROACTIVE_PROMPT_DIR):
+            if entry.is_file() and entry.name.lower().endswith(".txt"):
+                name = os.path.splitext(entry.name)[0]
+                prompt_names.append(name)
+        prompt_names.sort()  # deterministic ordering for the frontend
+    except Exception as e:
+        logger.error(f"Error scanning alt proactive prompts directory: {e}")
+        return []
+
+    return prompt_names

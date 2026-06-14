@@ -42,6 +42,7 @@ conda
 .env
 api_keys.py
 src/open_llm_vtuber/llm/user_credentials.json
+*_ps.txt
 
 # Database files
 memory.db

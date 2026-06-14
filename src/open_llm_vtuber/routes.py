@@ -11,6 +11,8 @@ from .service_context import ServiceContext
 from .websocket_handler import WebSocketHandler
 from .proxy_handler import ProxyHandler
 
+from prompts.prompt_loader import list_alt_proactive_prompts
+
 
 def init_client_ws_route(default_context_cache: ServiceContext) -> APIRouter:
     """
@@ -250,5 +252,20 @@ def init_webtool_routes(default_context_cache: ServiceContext) -> APIRouter:
         except Exception as e:
             logger.error(f"Error in TTS WebSocket connection: {e}")
             await websocket.close()
+
+    @router.get("/api/proactive-prompts")
+    async def get_proactive_prompts():
+        """
+        Return the list of available alternate proactive speak prompts.
+        This is a lightweight, stateless filesystem scan.
+        Returns an empty array (never an error) when the directory is missing or empty.
+        """
+        try:
+            prompt_names = list_alt_proactive_prompts()
+            return JSONResponse({"prompts": prompt_names})
+        except Exception as e:
+            logger.error(f"Unexpected error listing proactive prompts: {e}")
+            # Never fail the request; return empty list so frontend can degrade gracefully
+            return JSONResponse({"prompts": []})
 
     return router

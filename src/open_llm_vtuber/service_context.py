@@ -72,6 +72,14 @@ class ServiceContext:
         self.send_text: Callable = None
         self.client_uid: str = None
 
+        # === Runtime-adjustable proactive speak settings (Phase 2) ===
+        # These are updated via the "update-proactive-speak-settings" WebSocket message
+        # and read by the conversation trigger logic. Values are stored as 0-100 percentages.
+        # Defaults match the previous hardcoded behavior (70% main activation chance, 30% alt chance).
+        self.proactive_speak_chance: float = 70.0
+        self.alt_prompt_name: str | None = None
+        self.alt_proactive_speak_chance: float = 30.0
+
     def __str__(self):
         return (
             f"ServiceContext:\n"

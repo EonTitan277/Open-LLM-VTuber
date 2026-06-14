@@ -28,6 +28,8 @@ from .conversations.conversation_handler import (
     handle_individual_interrupt,
 )
 
+from prompts.prompt_loader import list_alt_proactive_prompts
+
 
 class MessageType(Enum):
     """Enum for WebSocket message types"""
@@ -95,6 +97,7 @@ class WebSocketHandler:
             "audio-play-start": self._handle_audio_play_start,
             "request-init-config": self._handle_init_config_request,
             "heartbeat": self._handle_heartbeat,
+            "update-proactive-speak-settings": self._handle_update_proactive_speak_settings,
         }
 
     async def handle_new_connection(
@@ -610,3 +613,75 @@ class WebSocketHandler:
             await websocket.send_json({"type": "heartbeat-ack"})
         except Exception as e:
             logger.error(f"Error sending heartbeat acknowledgment: {e}")
+
+    async def _handle_update_proactive_speak_settings(
+        self, websocket: WebSocket, client_uid: str, data: dict
+    ) -> None:
+        """
+        Handle runtime updates to proactive speak settings from the frontend.
+
+        Expected payload (all fields optional; missing fields are ignored):
+            {
+                "type": "update-proactive-speak-settings",
+                "proactiveSpeakChance": float (0-100),
+                "altPromptName": str | null | "" (filename stem without .txt, or falsy for default),
+                "altProactiveSpeakChance": float (0-100)
+            }
+
+        Values are stored on the per-client ServiceContext so the conversation trigger
+        logic (handle_conversation_trigger) can read them. Input is validated and clamped.
+        Unknown alt prompt names are rejected with a warning (no crash).
+        """
+        context = self.client_contexts.get(client_uid)
+        if not context:
+            logger.warning(
+                f"Received update-proactive-speak-settings for unknown client {client_uid}"
+            )
+            return
+
+        # --- proactiveSpeakChance (main activation chance) ---
+        if "proactiveSpeakChance" in data:
+            try:
+                val = float(data["proactiveSpeakChance"])
+                val = max(0.0, min(100.0, val))  # clamp
+                context.proactive_speak_chance = val
+                logger.debug(
+                    f"Client {client_uid}: proactive_speak_chance set to {val}"
+                )
+            except (TypeError, ValueError):
+                logger.warning(
+                    f"Invalid proactiveSpeakChance value from client {client_uid}: {data.get('proactiveSpeakChance')}"
+                )
+
+        # --- altPromptName ---
+        if "altPromptName" in data:
+            raw_name = data["altPromptName"]
+            if raw_name is None or (isinstance(raw_name, str) and raw_name.strip() == ""):
+                context.alt_prompt_name = None
+                logger.debug(f"Client {client_uid}: alt_prompt_name cleared (using default)")
+            else:
+                name = str(raw_name).strip()
+                # Validate against filesystem list (without extension)
+                available = list_alt_proactive_prompts()
+                if name in available:
+                    context.alt_prompt_name = name
+                    logger.debug(f"Client {client_uid}: alt_prompt_name set to '{name}'")
+                else:
+                    logger.warning(
+                        f"Client {client_uid} requested unknown alt prompt '{name}'. "
+                        f"Available: {available}. Keeping previous value ({context.alt_prompt_name})."
+                    )
+
+        # --- altProactiveSpeakChance ---
+        if "altProactiveSpeakChance" in data:
+            try:
+                val = float(data["altProactiveSpeakChance"])
+                val = max(0.0, min(100.0, val))  # clamp
+                context.alt_proactive_speak_chance = val
+                logger.debug(
+                    f"Client {client_uid}: alt_proactive_speak_chance set to {val}"
+                )
+            except (TypeError, ValueError):
+                logger.warning(
+                    f"Invalid altProactiveSpeakChance value from client {client_uid}: {data.get('altProactiveSpeakChance')}"
+                )

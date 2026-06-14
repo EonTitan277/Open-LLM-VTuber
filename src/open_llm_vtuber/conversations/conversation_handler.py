@@ -35,11 +35,26 @@ async def handle_conversation_trigger(
     metadata = None
 
     if msg_type == "ai-speak-signal":
-        roll = random.random() 
-        logger.debug(f"Proactive speak activation roll={roll:.2f}")
-        # 30% chance to skip proactive speech
-        if roll < 0.30:
-            logger.debug("Proactive speak skipped (random activation roll failed)")
+        # Read runtime-adjustable settings from the per-client ServiceContext
+        # (populated via "update-proactive-speak-settings" WS messages in Phase 2).
+        proactive_chance = getattr(context, "proactive_speak_chance", 70.0)
+        alt_name = getattr(context, "alt_prompt_name", None)
+        alt_chance = getattr(context, "alt_proactive_speak_chance", 30.0)
+
+        activation_prob = max(0.0, min(1.0, proactive_chance / 100.0))
+        roll = random.random()
+
+        logger.debug(
+            f"Proactive speak decision: roll={roll:.4f}, "
+            f"proactiveSpeakChance={proactive_chance}% (activation_prob={activation_prob:.4f}), "
+            f"altPromptName={alt_name!r}, altProactiveSpeakChance={alt_chance}%"
+        )
+
+        # Skip if the roll fails the main activation chance (default was 70% activation → 30% skip)
+        if roll >= activation_prob:
+            logger.debug(
+                f"Proactive speak skipped (random activation roll failed: {roll:.4f} >= {activation_prob:.4f})"
+            )
             await websocket.send_text(
                 json.dumps(
                     {
@@ -52,12 +67,19 @@ async def handle_conversation_trigger(
 
         try:
             user_input = None
-            # 30% chance to activate the selected alternate proactive speak prompt
-            if random.random() < 0.30:
-                prompt_name = "rag_prompt"
+            alt_prob = max(0.0, min(1.0, alt_chance / 100.0))
+
+            # Decide alt prompt usage: only consider the alt chance if an alt prompt has been selected.
+            # If alt_name is None/empty, we always use the normal proactive_speak_prompt path.
+            if alt_name and random.random() < alt_prob:
+                prompt_name = alt_name
+                logger.debug(
+                    f"Selected ALT proactive prompt branch: '{prompt_name}' "
+                    f"(altProactiveSpeakChance={alt_chance}%)"
+                )
                 prompt_file = context.system_config.tool_prompts.get(prompt_name)
                 logger.debug(f"Loaded prompt_file for {prompt_name}: {prompt_file}")
-                
+
                 if prompt_file:
                     try:
                         user_input = prompt_loader.load_util(prompt_file)
@@ -66,7 +88,10 @@ async def handle_conversation_trigger(
                         logger.error(f"Error loading prompt file '{prompt_file}': {e}")
                         user_input = "Without drawing attention to this message, say something to stimulate the conversation."
                 else:
-                    logger.warning(f"{prompt_name} not configured in tool_prompts, using default from alt_proactive_prompts")
+                    logger.warning(
+                        f"{prompt_name} not configured in tool_prompts, "
+                        f"falling back to direct load from alt_proactive_prompts/{prompt_name}.txt"
+                    )
                     try:
                         user_input = load_alt_proactive(prompt_name)
                         logger.debug(f"Successfully loaded alt proactive prompt for {prompt_name}")
@@ -75,9 +100,17 @@ async def handle_conversation_trigger(
                         user_input = "Without drawing attention to this message, say something to stimulate the conversation."
             else:
                 prompt_name = "proactive_speak_prompt"
+                if alt_name:
+                    logger.debug(
+                        f"Using DEFAULT proactive prompt '{prompt_name}' "
+                        f"(alt prompt '{alt_name}' was selected but alt roll did not trigger or chance was 0)"
+                    )
+                else:
+                    logger.debug(f"Using DEFAULT proactive prompt '{prompt_name}' (no alt prompt selected)")
+
                 prompt_file = context.system_config.tool_prompts.get(prompt_name)
                 logger.debug(f"Loaded prompt_file for {prompt_name}: {prompt_file}")
-                
+
                 if prompt_file:
                     try:
                         user_input = prompt_loader.load_util(prompt_file)
