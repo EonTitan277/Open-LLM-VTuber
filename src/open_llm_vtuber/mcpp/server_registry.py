@@ -2,6 +2,7 @@
 
 import shutil
 import json
+import sys
 
 from pathlib import Path
 from typing import Dict, Optional, Union, Any
@@ -45,6 +46,28 @@ class ServerRegistry:
         founded = shutil.which(target)
         return True if founded else False
 
+    def _inject_python_utf8_env(self, server_details: Dict[str, Any]) -> Dict[str, Any]:
+        """Inject PYTHONIOENCODING=utf-8 and PYTHONUTF8=1 for Python-based servers on Windows.
+        
+        This fixes the cp1252 stdout encoding issue when using CREATE_NO_WINDOW
+        on Windows, which causes UnicodeDecodeError in the MCP client's stdout reader.
+        """
+        if sys.platform != "win32":
+            return server_details
+        
+        command = server_details.get("command", "")
+        # Check if it's a Python-based server (uv, uvx, python, python3)
+        if command in ("uv", "uvx", "python", "python3"):
+            env = server_details.get("env", {}) or {}
+            # Only inject if not already set
+            if "PYTHONIOENCODING" not in env:
+                env["PYTHONIOENCODING"] = "utf-8"
+            if "PYTHONUTF8" not in env:
+                env["PYTHONUTF8"] = "1"
+            server_details["env"] = env
+        
+        return server_details
+
     def load_servers(self) -> None:
         """Load servers from the config file."""
         servers_config: Dict[str, Dict[str, Any]] = self.config.get("mcp_servers", {})
@@ -58,6 +81,9 @@ class ServerRegistry:
                     f"MCPSR: Invalid server details for '{server_name}'. Ignoring."
                 )
                 continue
+
+            # Inject PYTHONIOENCODING=utf-8 for Python-based servers on Windows
+            server_details = self._inject_python_utf8_env(server_details)
 
             command = server_details["command"]
             if command == "npx":

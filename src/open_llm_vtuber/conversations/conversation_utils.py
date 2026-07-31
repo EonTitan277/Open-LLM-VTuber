@@ -101,6 +101,10 @@ async def handle_sentence_output(
         else:
             logger.debug("🚫 No translation engine available. Skipping translation.")
 
+        # Sentence chunks are trimmed by the divider; preserve existing whitespace
+        # while adding one separator for persisted/replayed conversation history.
+        if full_response and not full_response[-1].isspace() and not display_text.text[:1].isspace():
+            full_response += " "
         full_response += display_text.text
         await tts_manager.speak(
             tts_text=tts_text,

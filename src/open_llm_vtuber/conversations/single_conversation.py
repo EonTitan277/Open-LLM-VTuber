@@ -118,6 +118,14 @@ async def process_single_conversation(
                     response_part_str = (
                         str(response_part) if response_part is not None else ""
                     )
+                    # Keep persisted history readable when separate output items are
+                    # sentence chunks without whitespace at their boundary.
+                    if (
+                        full_response
+                        and not full_response[-1].isspace()
+                        and not response_part_str[:1].isspace()
+                    ):
+                        full_response += " "
                     full_response += response_part_str  # Accumulate text response
                 else:
                     logger.warning(

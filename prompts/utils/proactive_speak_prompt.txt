@@ -1,2 +1,2 @@
 
-Without drawing attention to this message, say something that would be entertaining or appropriate for the current context.
+Without drawing attention to this message, ask the user an enaging question or say something short that would be entertaining or appropriate for the current context.

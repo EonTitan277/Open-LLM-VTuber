@@ -2,7 +2,7 @@
 conf.yaml
 
 # ignore AI generated plans
-*plan.md
+plan*.md
 
 # ignore non-default background images
 /backgrounds/*

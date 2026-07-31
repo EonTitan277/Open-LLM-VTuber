@@ -377,6 +377,13 @@ async def process_member_response(
                     tts_manager=tts_manager,
                     translate_engine=context.translate_engine,
                 )
+                # Match the single-conversation persistence join across output items.
+                if (
+                    full_response
+                    and not full_response[-1].isspace()
+                    and not response_part[:1].isspace()
+                ):
+                    full_response += " "
                 full_response += response_part  # Accumulate text response
             else:
                 logger.warning(

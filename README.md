@@ -5,7 +5,7 @@
 </h3>
 
 ## 🌟 New Features
-- **🎲 Random Proactive Prompts** – AI now probabilistically generates proactive speech using either lore-based prompts (from lorebook entries) or regular proactive prompts, with fallback behavior for robustness
+- **🎲 Random Proactive Prompt Timing** – AI now probabilistically uses alternative proactive speech prompts or the regular proactive speech prompt
 - **🗣️ Improved TTS Task Management** – Centralized TTSTaskManager.wait_for_completion method for better handling of pending TTS tasks and payload queue coordination
 - **🚫 Enhanced Error Logging** – Full exception tracebacks now captured for TTS-related errors to improve debugging diagnostics
 - **📚 ElevenLabs Pronunciation Dictionaries** – ElevenLabs TTS can now resolve and reuse an existing pronunciation dictionary by ID for custom pronunciations
